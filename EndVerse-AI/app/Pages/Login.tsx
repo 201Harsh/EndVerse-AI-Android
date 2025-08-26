@@ -10,6 +10,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../Components/Header";
 import { Link } from "expo-router";
+import MaskedView from "@react-native-masked-view/masked-view";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -35,9 +37,25 @@ export default function Login() {
           className="px-6"
         >
           {/* Title */}
-          <Text className="text-3xl font-bold text-center text-indigo-300 mb-2">
-            Welcome Back to EndVerse AI
-          </Text>
+          <MaskedView
+            maskElement={
+              <Text className="text-4xl font-bold text-center text-indigo-300 mb-2">
+                Welcome Back to EndVerse AI
+              </Text>
+            }
+          >
+            <LinearGradient
+              className="h-12 w-full"
+              colors={["#60a5fa", "#a78bfa"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <Text className="text-4xl opacity-0 font-bold text-center text-indigo-300 mb-2">
+                Welcome Back to EndVerse AI
+              </Text>
+            </LinearGradient>
+          </MaskedView>
+
           <Text className="text-gray-400 text-center mb-8">
             Sign in to continue your AI conversations
           </Text>
@@ -54,8 +72,7 @@ export default function Login() {
                 onChangeText={(val) => handleChange("email", val)}
                 keyboardType="email-address"
                 autoCapitalize="none"
-                style={{ borderColor: "gray", borderWidth: 2 }}
-                className="rounded-lg px-4 py-3 text-white"
+                className="rounded-lg px-4 py-3 text-white border-2 border-gray-600 bg-gray-800 focus:border-indigo-500"
               />
             </View>
 
@@ -68,8 +85,7 @@ export default function Login() {
                 value={formData.password}
                 onChangeText={(val) => handleChange("password", val)}
                 secureTextEntry={true}
-                style={{ borderColor: "gray", borderWidth: 2 }}
-                className="rounded-lg px-4 py-3 text-white"
+                className="rounded-lg px-4 py-3 text-white border-2 border-gray-600 bg-gray-800 focus:border-indigo-500"
               />
             </View>
 
