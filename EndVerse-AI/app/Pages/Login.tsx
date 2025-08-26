@@ -74,7 +74,7 @@ export default function Login() {
             </View>
 
             {/* Forgot Password */}
-            <TouchableOpacity className="self-end">
+            <TouchableOpacity className="self-end mt-2">
               <Text className="text-indigo-400 text-sm">Forgot Password?</Text>
             </TouchableOpacity>
 
