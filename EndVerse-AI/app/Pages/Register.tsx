@@ -12,16 +12,23 @@ import Header from "../Components/Header";
 import { Link } from "expo-router";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
+import Entypo from "@expo/vector-icons/Entypo";
 
 export default function Register() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = () => {
+    console.log({ name, email, password });
+    setName("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -40,7 +47,7 @@ export default function Register() {
           {/* Title */}
           <MaskedView
             maskElement={
-              <Text className="text-4xl font-bold text-center text-indigo-300">
+              <Text className="text-4xl font-bold text-center">
                 Register To EndVerse AI
               </Text>
             }
@@ -51,7 +58,7 @@ export default function Register() {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <Text className="text-4xl opacity-0 font-bold text-center text-indigo-300">
+              <Text className="text-4xl opacity-0 font-bold text-center">
                 Register To EndVerse AI
               </Text>
             </LinearGradient>
@@ -69,8 +76,8 @@ export default function Register() {
               <TextInput
                 placeholder="Enter your full name"
                 placeholderTextColor="#9ca3af"
-                value={formData.name}
-                onChangeText={(val) => handleChange("name", val)}
+                value={name}
+                onChangeText={setName}
                 className="rounded-lg px-4 py-3 text-white border-2 border-gray-600 bg-gray-800 focus:border-indigo-500"
               />
             </View>
@@ -81,8 +88,8 @@ export default function Register() {
               <TextInput
                 placeholder="Enter your email"
                 placeholderTextColor="#9ca3af"
-                value={formData.email}
-                onChangeText={(val) => handleChange("email", val)}
+                value={email}
+                onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
                 className="rounded-lg px-4 py-3 text-white border-2 border-gray-600 bg-gray-800 focus:border-indigo-500"
@@ -90,20 +97,34 @@ export default function Register() {
             </View>
 
             {/* Password */}
-            <View className="mt-4">
+            <View className="mt-4 relative">
               <Text className="text-white font-semibold mb-2">Password</Text>
               <TextInput
                 placeholder="Create a password"
                 placeholderTextColor="#9ca3af"
-                value={formData.password}
-                onChangeText={(val) => handleChange("password", val)}
-                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
                 className="rounded-lg px-4 py-3 text-white border-2 border-gray-600 bg-gray-800 focus:border-indigo-500"
               />
+              <TouchableOpacity
+                onPress={togglePasswordVisibility}
+                className="absolute right-4 top-[66%]"
+                style={{ transform: [{ translateY: -8 }] }}
+              >
+                <Entypo
+                  name={showPassword ? "eye-with-line" : "eye"}
+                  size={20}
+                  color="#9ca3af"
+                />
+              </TouchableOpacity>
             </View>
 
             {/* Submit Button */}
-            <TouchableOpacity className="bg-indigo-600 py-3 rounded-lg items-center mt-6">
+            <TouchableOpacity
+              onPress={handleSubmit}
+              className="bg-indigo-600 py-3 rounded-lg items-center mt-6"
+            >
               <Text className="text-white font-semibold text-lg">
                 Create Account
               </Text>

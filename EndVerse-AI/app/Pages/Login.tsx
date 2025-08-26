@@ -12,15 +12,21 @@ import Header from "../Components/Header";
 import { Link } from "expo-router";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
+import Entypo from "@expo/vector-icons/Entypo";
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = () => {
+    console.log({ email, password });
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -39,7 +45,7 @@ export default function Login() {
           {/* Title */}
           <MaskedView
             maskElement={
-              <Text className="text-4xl font-bold text-center text-indigo-300 mb-2">
+              <Text className="text-4xl font-bold text-center mb-2">
                 Welcome Back to EndVerse AI
               </Text>
             }
@@ -56,7 +62,7 @@ export default function Login() {
             </LinearGradient>
           </MaskedView>
 
-          <Text className="text-gray-400 text-center mb-8">
+          <Text className="text-gray-400 text-center mb-6">
             Sign in to continue your AI conversations
           </Text>
 
@@ -68,8 +74,8 @@ export default function Login() {
               <TextInput
                 placeholder="Enter your email"
                 placeholderTextColor="#9ca3af"
-                value={formData.email}
-                onChangeText={(val) => handleChange("email", val)}
+                value={email}
+                onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
                 className="rounded-lg px-4 py-3 text-white border-2 border-gray-600 bg-gray-800 focus:border-indigo-500"
@@ -77,16 +83,27 @@ export default function Login() {
             </View>
 
             {/* Password */}
-            <View className="mt-4">
+            <View className="mt-4 relative">
               <Text className="text-white font-semibold mb-2">Password</Text>
               <TextInput
                 placeholder="Enter your password"
                 placeholderTextColor="#9ca3af"
-                value={formData.password}
-                onChangeText={(val) => handleChange("password", val)}
-                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
                 className="rounded-lg px-4 py-3 text-white border-2 border-gray-600 bg-gray-800 focus:border-indigo-500"
               />
+              <TouchableOpacity
+                onPress={togglePasswordVisibility}
+                className="absolute right-3 top-[66%]"
+                style={{ transform: [{ translateY: -8 }] }}
+              >
+                <Entypo
+                  name={showPassword ? "eye-with-line" : "eye"}
+                  size={20}
+                  color="#9ca3af"
+                />
+              </TouchableOpacity>
             </View>
 
             {/* Forgot Password */}
@@ -95,7 +112,7 @@ export default function Login() {
             </TouchableOpacity>
 
             {/* Submit Button */}
-            <TouchableOpacity className="bg-indigo-600 py-3 rounded-lg items-center mt-6">
+            <TouchableOpacity onPress={handleSubmit} className="bg-indigo-600 py-3 rounded-lg items-center mt-6">
               <Text className="text-white font-semibold text-lg">Sign In</Text>
             </TouchableOpacity>
 
