@@ -10,11 +10,11 @@ import { useRouter } from "expo-router";
 
 export default function Index() {
   const users = [1, 2, 3];
-  const Router = useRouter()
+  const Router = useRouter();
 
-  const handleRedirect = ()=>{
-    Router.push("/Pages/Register")
-  }
+  const handleRedirect = () => {
+    Router.push("/Pages/Register");
+  };
 
   return (
     <>
@@ -56,6 +56,7 @@ export default function Index() {
           {/* CTA Button */}
           <TouchableOpacity
             activeOpacity={0.8}
+            onPress={handleRedirect}
             className="mt-10 w-56 rounded-xl"
             style={{ borderRadius: 8 }}
           >
@@ -66,7 +67,7 @@ export default function Index() {
               style={{ borderRadius: 8 }}
               className="py-3 rounded-lg flex-row items-center justify-center space-x-2 shadow-lg"
             >
-              <Text onPress={handleRedirect} className="text-white text-xl font-semibold">
+              <Text className="text-white text-xl font-semibold">
                 Get Started
               </Text>
               <AntDesign name="arrowright" size={20} color="white" />

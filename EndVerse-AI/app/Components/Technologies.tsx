@@ -65,7 +65,7 @@ export default function Technologies() {
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        className="flex-1 bg-gray-900 px-6 py-12 mt-1"
+        className="flex-1 bg-gray-900 px-6 py-4 mt-1"
       >
         {/* Section Heading */}
 
@@ -74,7 +74,7 @@ export default function Technologies() {
           {techs.map((tech, i) => (
             <View
               key={i}
-              className="bg-gray-800/50 rounded-lg border border-gray-700 shadow-sm p-6 items-center"
+              className="bg-gray-900 rounded-lg shadow-sm p-6 items-center"
             >
               <View
                 className={`w-16 h-16 rounded-xl mb-4 items-center justify-center bg-gradient-to-br ${tech.color}`}
