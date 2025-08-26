@@ -38,7 +38,7 @@ const ImageDashboard = () => {
         <View className="items-center max-w-md">
           <View className="mb-8">
             <View className="w-24 h-24 rounded-full bg-blue-500 items-center justify-center">
-              <Ionicons name="time" size={36} color="#fff" />
+              <Ionicons name="image" size={36} color="#fff" />
             </View>
           </View>
 
