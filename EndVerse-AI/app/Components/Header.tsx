@@ -2,7 +2,13 @@ import { View, Text, TouchableOpacity } from "react-native";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useRouter } from "expo-router";
 
-export default function Header({ opacity }: { opacity: boolean }) {
+export default function Header({
+  opacity,
+  Showbtn,
+}: {
+  opacity: boolean;
+  Showbtn: boolean;
+}) {
   const Router = useRouter();
 
   const handleRedirect = () => {
@@ -25,6 +31,11 @@ export default function Header({ opacity }: { opacity: boolean }) {
           className={`px-4 py-2 rounded-lg bg-indigo-600 ${opacity ? "opacity-100" : "opacity-0"}`}
         >
           <Text className="text-white text-base font-medium">Sign Up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          className={`px-4 py-2 rounded-lg bg-red-500 ${Showbtn ? "opacity-100" : "opacity-0"}`}
+        >
+          <Text className="text-white text-base font-semibold">Logout</Text>
         </TouchableOpacity>
       </View>
     </View>

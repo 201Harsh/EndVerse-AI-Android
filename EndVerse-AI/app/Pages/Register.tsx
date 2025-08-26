@@ -33,7 +33,7 @@ export default function Register() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-900">
-      <Header opacity={false} />
+      <Header Showbtn={false} opacity={false} />
       <KeyboardAvoidingView behavior="padding" className="flex-1">
         <ScrollView
           contentContainerStyle={{

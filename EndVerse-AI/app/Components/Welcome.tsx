@@ -17,7 +17,7 @@ const Welcome = () => {
   };
   return (
     <>
-      <Header opacity={true} />
+      <Header Showbtn={false} opacity={true} />
 
       <View className="flex-1 items-center px-6 mt-10">
         {/* App Tag */}
