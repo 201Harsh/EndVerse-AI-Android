@@ -113,7 +113,7 @@ const ChatDashboard = () => {
         {/* Input Area */}
         <View className="flex-row items-center p-4 bg-gray-900">
           <TextInput
-            className="flex-1 min-h-[40px] max-h-[100px] bg-[#364152] text-white px-3 py-4 rounded-full text-md"
+            className="flex-1 w-full min-h-[50px] max-h-[100px] bg-[#364152] text-white px-5 py-4 rounded-full text-[15px] overflow-hidden"
             placeholder="Message EndVerse AI..."
             placeholderTextColor="#999"
             value={inputMessage}
