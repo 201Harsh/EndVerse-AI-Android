@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import "./global.css";
-import { View } from "react-native";
+import Toast from "react-native-toast-message";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RootLayout() {
@@ -12,6 +12,7 @@ export default function RootLayout() {
           statusBarStyle: "light",
         }}
       />
+      <Toast />
     </SafeAreaView>
   );
 }
