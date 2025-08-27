@@ -13,7 +13,8 @@ const Welcome = () => {
   const Router = useRouter();
 
   const handleRedirect = () => {
-    Router.push("/Pages/Register");
+    // Router.push("/Pages/Register");
+    Router.push("/dashboard");
   };
   return (
     <>

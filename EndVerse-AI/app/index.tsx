@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import {View } from "react-native";
 import Welcome from "./Components/Welcome";
 
 export default function Index() {
