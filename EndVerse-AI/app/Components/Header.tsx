@@ -27,10 +27,10 @@ export default function Header({
       });
       if (res.status === 200) {
         await AsyncStorage.clear();
-        Router.push("./");
+        Router.push("/");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
