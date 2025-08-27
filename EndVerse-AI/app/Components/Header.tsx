@@ -1,6 +1,8 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useRouter } from "expo-router";
+import AxiosInstance from "../Config/Axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Header({
   opacity,
@@ -15,8 +17,21 @@ export default function Header({
     Router.push("/Pages/Register");
   };
 
-  const handleLogout = () => {
-    Router.push("./");
+  const handleLogout = async () => {
+    const token = await AsyncStorage.getItem("token");
+    try {
+      const res = await AxiosInstance.post("/users/logout", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.status === 200) {
+        await AsyncStorage.clear();
+        Router.push("./");
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (

@@ -72,7 +72,7 @@ export default function Login() {
       setEmail("");
       setPassword("");
     } catch (error: any) {
-      AsyncStorage.clear();
+      await AsyncStorage.clear();
       const errorMessage =
         error.response?.data?.message ||
         (error.response?.data?.errors

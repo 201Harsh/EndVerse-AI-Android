@@ -37,7 +37,7 @@ const Layout = () => {
             height: 52,
             overflow: "hidden",
             backgroundColor: "#111827",
-            paddingTop: 5
+            paddingTop: 5,
           },
         }}
       >
