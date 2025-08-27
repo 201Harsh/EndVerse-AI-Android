@@ -8,23 +8,22 @@ export default function Index() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true); // mark as mounted
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true); // mark as mounted
+  // }, []);
 
-  useEffect(() => {
-    if (mounted) {
-      router.replace("/(tabs)/ChatDashboard");
-    }
-  }, [mounted]);
+  // useEffect(() => {
+  //   if (mounted) {
+  //     router.replace("/(tabs)/ChatDashboard");
+  //   }
+  // }, [mounted]);
 
-  return null;
-  // return (
-  //   <>
-  //     <View className="flex-1 bg-gray-900">
-  //       {/* <Welcome /> */}
-  //       <ChatDashboard/>
-  //     </View>
-  //   </>
-  // );
+  // return null;
+  return (
+    <>
+      <View className="flex-1 bg-gray-900">
+        <Welcome />
+      </View>
+    </>
+  );
 }

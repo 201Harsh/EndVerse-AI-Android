@@ -14,6 +14,11 @@ export default function Header({
   const handleRedirect = () => {
     Router.push("/Pages/Register");
   };
+
+  const handleLogout = ()=>{
+    Router.push("./");
+  }
+
   return (
     <View className="flex flex-row items-center justify-between px-5 py-3 border-b border-gray-800">
       {/* Left: Logo + Title */}
@@ -33,6 +38,7 @@ export default function Header({
           <Text className="text-white text-base font-medium">Sign Up</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={handleLogout}
           className={`px-4 py-2 rounded-lg bg-red-500 ${Showbtn ? "opacity-100" : "opacity-0"}`}
         >
           <Text className="text-white text-base font-semibold">Logout</Text>
