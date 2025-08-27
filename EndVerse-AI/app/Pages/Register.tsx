@@ -174,10 +174,11 @@ export default function Register() {
         email,
         password,
       });
-      if (response.status === 200) {
+      console.log(response.data.tempUser);
+      if (response.status === 201) {
         AsyncStorage.setItem("token", response.data.token);
-        AsyncStorage.setItem("name", response.data.user.name);
-        AsyncStorage.setItem("email", response.data.user.email);
+        AsyncStorage.setItem("name", response.data.tempUser.name);
+        AsyncStorage.setItem("email", response.data.tempUser.email);
         Toast.show({
           type: "success",
           text1: response.data.message,

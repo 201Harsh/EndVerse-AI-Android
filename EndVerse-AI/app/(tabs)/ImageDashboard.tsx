@@ -2,10 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ImageDashboard = () => {
   const [showWelcome, setShowWelcome] = useState(true);
-  const userName = "EndVerse User"; // replace with AsyncStorage or Context later
+  const [userName, setuserName] = useState<any>("");
+
+  useEffect(() => {
+    const getuserName = async () => {
+      const Name = await AsyncStorage.getItem("name");
+      setuserName(Name);
+    };
+    getuserName();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
