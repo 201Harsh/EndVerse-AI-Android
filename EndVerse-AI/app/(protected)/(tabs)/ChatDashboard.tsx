@@ -93,8 +93,7 @@ const ChatDashboard: React.FC = () => {
         const botMessage: Message = {
           id: Date.now().toString(),
           text:
-            filterAIResponse(res.data?.answer) ||
-            "🤖 I couldn't process that.",
+            filterAIResponse(res.data?.answer) || "🤖 I couldn't process that.",
           sender: "bot",
           timestamp: getTimestamp(),
         };
@@ -183,7 +182,9 @@ const ChatDashboard: React.FC = () => {
                   maskElement={
                     <Text className="text-5xl text-center font-bold mb-1 text-gray-200">
                       Hello{" "}
-                      <Text className="leading-tight font-bold">{UserName}!</Text>
+                      <Text className="leading-tight font-bold">
+                        {UserName}!
+                      </Text>
                     </Text>
                   }
                 >
@@ -195,12 +196,18 @@ const ChatDashboard: React.FC = () => {
                   >
                     <Text className="text-5xl opacity-0 font-bold mb-1 text-gray-200">
                       Hello{" "}
-                      <Text className="leading-tight font-bold">{UserName}!</Text>
+                      <Text className="leading-tight font-bold">
+                        {UserName}!
+                      </Text>
                     </Text>
                   </LinearGradient>
                 </MaskedView>
                 <Text className="text-xl mb-8 text-gray-400">
-                  How can I help you today?
+                  How can{" "}
+                  <Text className="font-bold text-emerald-400">
+                    EndVerse AI
+                  </Text>{" "}
+                  Assist you today?
                 </Text>
               </View>
             </View>
