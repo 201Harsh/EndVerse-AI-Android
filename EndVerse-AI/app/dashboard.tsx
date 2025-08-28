@@ -12,7 +12,7 @@ const dashboard = () => {
 
   useEffect(() => {
     if (mounted) {
-      router.replace("/(tabs)/ChatDashboard");
+      router.replace("/(protected)/(tabs)/ChatDashboard");
     }
   }, [mounted]);
 

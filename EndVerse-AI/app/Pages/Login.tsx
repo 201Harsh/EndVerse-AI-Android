@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
 import Header from "../Components/Header";
 import { Link, useRouter } from "expo-router";
@@ -23,6 +24,7 @@ export default function Login() {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {}
   );
+  const [loading, setLoading] = useState(false);
   const PasswordRef = useRef<TextInput>(null);
 
   const Router = useRouter();
@@ -32,6 +34,7 @@ export default function Login() {
   };
 
   const handleSubmit = async () => {
+    if (loading) return;
     setErrors({});
     if (!email.trim()) {
       Toast.show({
@@ -52,6 +55,7 @@ export default function Login() {
     }
 
     try {
+      setLoading(true);
       const response = await AxiosInstance.post("/users/login", {
         email,
         password,
@@ -84,6 +88,8 @@ export default function Login() {
         text1: errorMessage,
         position: "bottom",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -191,7 +197,13 @@ export default function Login() {
                 onPress={handleSubmit}
                 className="bg-indigo-600 py-3 rounded-lg items-center mt-6"
               >
-                <Text className="text-white font-semibold text-lg">Log In</Text>
+                {loading ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text className="text-white font-semibold text-lg">
+                    Log In
+                  </Text>
+                )}
               </TouchableOpacity>
 
               {/* Footer */}

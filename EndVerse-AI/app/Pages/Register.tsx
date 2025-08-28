@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
 import Header from "../Components/Header";
 import { Link, useRouter } from "expo-router";
@@ -23,6 +24,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const EmailRef = useRef<TextInput>(null);
   const PasswdRef = useRef<TextInput>(null);
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -138,6 +140,7 @@ export default function Register() {
   };
 
   const handleSubmit = async () => {
+    if (loading) return;
     if (!name.trim()) {
       Toast.show({
         type: "error",
@@ -169,6 +172,7 @@ export default function Register() {
     }
 
     try {
+      setLoading(true);
       const response = await AxiosInstance.post("/users/register", {
         name,
         email,
@@ -204,6 +208,8 @@ export default function Register() {
         text1: errorMessage,
         position: "bottom",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -310,9 +316,13 @@ export default function Register() {
                 onPress={handleSubmit}
                 className="bg-indigo-600 py-3 rounded-lg items-center mt-6"
               >
-                <Text className="text-white font-semibold text-lg">
-                  Create Account
-                </Text>
+                {loading ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text className="text-white font-semibold text-lg">
+                    Create Account
+                  </Text>
+                )}
               </TouchableOpacity>
 
               {/* Footer */}
