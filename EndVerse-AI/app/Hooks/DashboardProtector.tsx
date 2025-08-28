@@ -30,7 +30,7 @@ const DashboardProtector = ({ children }: { children: React.ReactNode }) => {
         if (res.status === 200) {
           setTimeout(() => {
             setIsLoading(false);
-          }, 3000);
+          }, 3500);
         } else {
           await AsyncStorage.clear();
           router.replace("/");
@@ -61,7 +61,7 @@ const DashboardProtector = ({ children }: { children: React.ReactNode }) => {
           backgroundColor: "black",
         }}
       >
-        <Preloader onComplete={() => router.replace("/dashboard")} />
+        <Preloader onComplete={() => {}} />
       </View>
     );
   }

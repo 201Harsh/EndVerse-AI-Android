@@ -55,7 +55,7 @@ const Preloader: React.FC<PreloaderProps> = () => {
   const allServicesReady = Object.values(serverStatus).every(Boolean);
 
   return (
-    <View className="flex-1 bg-gray-900 items-center justify-center px-4">
+    <View className="flex-1 w-full h-full bg-gray-900 items-center justify-center px-4">
       {/* Main Robot */}
       <View className="w-32 h-32 mb-8 items-center justify-center rounded-full border border-gray-700">
         <FontAwesome name="android" size={70} color="#818cf8" />
