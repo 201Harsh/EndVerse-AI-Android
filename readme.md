@@ -67,7 +67,7 @@ The most advanced AI platform combining conversational intelligence, creative ge
 
 ```mermaid
 flowchart TD
-    A[Mobile App (React Native)] -->|HTTPS| B[API Gateway]
+    A[Client] -->|HTTPS| B[API Gateway]
     B --> C[Auth Service]
     B --> D[Chat Service]
     B --> E[Image Service]
@@ -80,7 +80,6 @@ flowchart TD
     F --> K[RunwayML]
     G --> L[CodeLlama]
 ```
-
 ---
 
 ## 🚀 Installation (Android App)
