@@ -87,9 +87,7 @@ const ChatDashboard: React.FC = () => {
             },
           }
         );
-
-        console.log("AI Response:", res.data.answer);
-
+        
         const botMessage: Message = {
           id: Date.now().toString(),
           text:
