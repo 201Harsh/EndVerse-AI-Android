@@ -21,7 +21,7 @@ type ServerStatusItemProps = {
   isReady: boolean;
 };
 
-const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
+const Preloader: React.FC<PreloaderProps> = () => {
   const [progress, setProgress] = useState<number>(0);
   const [serverStatus, setServerStatus] = useState<ServerStatus>({
     aiEngine: false,
