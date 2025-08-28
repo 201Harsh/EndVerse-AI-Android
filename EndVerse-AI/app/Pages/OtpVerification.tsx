@@ -111,7 +111,6 @@ const OTPVerification: React.FC = () => {
         Router.push("/");
       }
     } catch (error: any) {
-      console.log(error);
       if (error.response?.data?.message) {
         Toast.show({
           type: "error",

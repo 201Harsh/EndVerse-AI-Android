@@ -178,7 +178,6 @@ export default function Register() {
         email,
         password,
       });
-      console.log(response.data.tempUser);
       if (response.status === 201) {
         AsyncStorage.setItem("token", response.data.token);
         AsyncStorage.setItem("name", response.data.tempUser.name);
