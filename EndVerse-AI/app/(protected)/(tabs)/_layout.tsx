@@ -49,7 +49,7 @@ const Layout = () => {
             tabBarIcon: ({ focused }) => (
               <IconsImg
                 focused={focused}
-                icon={require("../../assets/icons/chat.png")}
+                icon={require("../../../assets/icons/chat.png")}
                 title="Chat"
               />
             ),
@@ -63,7 +63,7 @@ const Layout = () => {
             tabBarIcon: ({ focused }) => (
               <IconsImg
                 focused={focused}
-                icon={require("../../assets/icons/image.png")}
+                icon={require("../../../assets/icons/image.png")}
                 title="Images"
               />
             ),
@@ -77,7 +77,7 @@ const Layout = () => {
             tabBarIcon: ({ focused }) => (
               <IconsImg
                 focused={focused}
-                icon={require("../../assets/icons/video.png")}
+                icon={require("../../../assets/icons/video.png")}
                 title="Videos"
               />
             ),
@@ -91,7 +91,7 @@ const Layout = () => {
             tabBarIcon: ({ focused }) => (
               <IconsImg
                 focused={focused}
-                icon={require("../../assets/icons/code.webp")}
+                icon={require("../../../assets/icons/code.webp")}
                 title="Code"
               />
             ),

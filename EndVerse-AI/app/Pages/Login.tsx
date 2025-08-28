@@ -66,7 +66,7 @@ export default function Login() {
           text1: response.data.message,
           position: "bottom",
         });
-        Router.push("../dashboard");
+        Router.push("/");
       }
 
       setEmail("");

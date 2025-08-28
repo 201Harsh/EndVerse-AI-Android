@@ -8,11 +8,11 @@ import {
   FlatList,
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
-import Header from "../Components/Header";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
+import Header from "@/app/Components/Header";
 
 type Message = {
   id: string;
