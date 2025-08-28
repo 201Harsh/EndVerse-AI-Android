@@ -4,8 +4,8 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
-  Platform,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -22,13 +22,14 @@ type Message = {
   timestamp: string;
 };
 
-const ChatDashboard = () => {
+const ChatDashboard: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [inputMessage, setInputMessage] = useState("");
-  const [UserName, setUserName] = useState<any>("");
-  const flatListRef = useRef<FlatList<Message>>(null);
+  const [inputMessage, setInputMessage] = useState<string>("");
+  const [UserName, setUserName] = useState<string | null>("");
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const flatListRef = useRef<FlatList>(null);
 
-  const getTimestamp = () => {
+  const getTimestamp = (): string => {
     const now = new Date();
     return `${now.getHours()}:${now.getMinutes().toString().padStart(2, "0")}`;
   };
@@ -41,60 +42,84 @@ const ChatDashboard = () => {
     getuserName();
   }, []);
 
+  // --- Filter AI response before showing ---
+  const filterAIResponse = (text: string): string => {
+    if (!text) return "";
+
+    let cleanedText = text;
+
+    // Remove signature like: ***EndVerse AI vX.X (Powered by EndGaming AI)***
+    const signatureRegex =
+      /\*{0,3}EndVerse AI v[\d.]+ ?\(Powered by EndGaming AI\)\*{0,3}/gi;
+    cleanedText = cleanedText.replace(signatureRegex, "");
+
+    // Remove emojis (extended unicode ranges)
+    cleanedText = cleanedText.replace(
+      /([\u2700-\u27BF]|[\uE000-\uF8FF]|[\u2600-\u26FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|\uD83E[\uDD00-\uDDFF])/g,
+      ""
+    );
+
+    // Trim extra spaces
+    return cleanedText.trim();
+  };
+
   const handleSend = async () => {
-  const token = await AsyncStorage.getItem("token");
-  if (inputMessage.trim()) {
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      text: inputMessage,
-      sender: "user",
-      timestamp: getTimestamp(),
-    };
-
-    setMessages((prev) => [...prev, newMessage]);
-    setInputMessage("");
-
-    try {
-      const res = await AxiosInstance.post(
-        "/ai/chat",
-        { prompt: inputMessage },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("AI Response:", res.data.answer);
-
-      const botMessage: Message = {
+    const token = await AsyncStorage.getItem("token");
+    if (inputMessage.trim()) {
+      const newMessage: Message = {
         id: Date.now().toString(),
-        text: res.data?.answer || "Something went wrong 🤖",
-        sender: "bot",
+        text: inputMessage,
+        sender: "user",
         timestamp: getTimestamp(),
       };
 
-      setMessages((prev) => [...prev, botMessage]);
+      setMessages((prev) => [...prev, newMessage]);
+      setInputMessage("");
+      setIsTyping(true);
 
-      // Scroll to bottom
-      setTimeout(() => {
-        flatListRef.current?.scrollToEnd({ animated: true });
-      }, 100);
-    } catch (error) {
-      console.error("Error fetching AI reply:", error);
+      try {
+        const res = await AxiosInstance.post(
+          "/ai/chat",
+          { prompt: inputMessage },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      const errorMessage: Message = {
-        id: Date.now().toString(),
-        text: "⚠️ Sorry, I couldn’t connect to the AI.",
-        sender: "bot",
-        timestamp: getTimestamp(),
-      };
+        console.log("AI Response:", res.data.answer);
 
-      setMessages((prev) => [...prev, errorMessage]);
+        const botMessage: Message = {
+          id: Date.now().toString(),
+          text:
+            filterAIResponse(res.data?.answer) ||
+            "🤖 I couldn't process that.",
+          sender: "bot",
+          timestamp: getTimestamp(),
+        };
+
+        setMessages((prev) => [...prev, botMessage]);
+      } catch (error) {
+        console.error("Error fetching AI reply:", error);
+
+        const errorMessage: Message = {
+          id: Date.now().toString(),
+          text: "⚠️ Sorry, I couldn’t connect to the AI.",
+          sender: "bot",
+          timestamp: getTimestamp(),
+        };
+
+        setMessages((prev) => [...prev, errorMessage]);
+      } finally {
+        setIsTyping(false);
+        // Auto scroll to bottom
+        setTimeout(() => {
+          flatListRef.current?.scrollToEnd({ animated: true });
+        }, 100);
+      }
     }
-  }
-};
-
+  };
 
   const renderMessage = ({ item }: { item: Message }) => {
     const isUser = item.sender === "user";
@@ -114,6 +139,15 @@ const ChatDashboard = () => {
     );
   };
 
+  // Typing Indicator (3 pulsing dots)
+  const TypingIndicator: React.FC = () => (
+    <View className="flex-row space-x-2 gap-1 bg-gray-700 px-4 py-3 rounded-xl self-start rounded-bl-none">
+      <View className="w-2 h-2 rounded-full bg-gray-400 animate-pulse"></View>
+      <View className="w-2 h-2 rounded-full bg-gray-400 animate-pulse delay-150"></View>
+      <View className="w-2 h-2 rounded-full bg-gray-400 animate-pulse delay-300"></View>
+    </View>
+  );
+
   return (
     <View className="flex-1 bg-gray-900">
       <KeyboardAvoidingView
@@ -128,10 +162,19 @@ const ChatDashboard = () => {
         {/* Messages */}
         <FlatList
           ref={flatListRef}
-          data={messages}
+          data={
+            isTyping
+              ? [
+                  ...messages,
+                  { id: "typing", text: "", sender: "bot", timestamp: "" },
+                ]
+              : messages
+          }
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ flexGrow: 1, padding: 16 }}
-          renderItem={renderMessage}
+          renderItem={({ item }) =>
+            item.id === "typing" ? <TypingIndicator /> : renderMessage({ item })
+          }
           ListEmptyComponent={
             <View className="flex-1 justify-center items-center">
               <View className="p-2">
@@ -139,9 +182,7 @@ const ChatDashboard = () => {
                   maskElement={
                     <Text className="text-5xl text-center font-bold mb-1 text-gray-200">
                       Hello{" "}
-                      <Text className="leading-tight font-bold">
-                        {UserName}!
-                      </Text>
+                      <Text className="leading-tight font-bold">{UserName}!</Text>
                     </Text>
                   }
                 >
@@ -153,9 +194,7 @@ const ChatDashboard = () => {
                   >
                     <Text className="text-5xl opacity-0 font-bold mb-1 text-gray-200">
                       Hello{" "}
-                      <Text className="leading-tight font-bold">
-                        {UserName}!
-                      </Text>
+                      <Text className="leading-tight font-bold">{UserName}!</Text>
                     </Text>
                   </LinearGradient>
                 </MaskedView>
@@ -171,17 +210,27 @@ const ChatDashboard = () => {
         <View className="flex-row items-center p-4 bg-gray-900">
           <TextInput
             className="flex-1 w-full min-h-[50px] max-h-[100px] bg-[#364152] text-white px-5 py-4 rounded-full text-[15px] overflow-hidden"
-            placeholder="Message EndVerse AI..."
+            placeholder={
+              isTyping ? "EndVerse is typing..." : "Message EndVerse AI..."
+            }
             placeholderTextColor="#999"
             value={inputMessage}
             onChangeText={setInputMessage}
+            editable={!isTyping}
             multiline
           />
           <TouchableOpacity
             onPress={handleSend}
-            className="ml-2 bg-indigo-600 p-3 rounded-full"
+            disabled={isTyping}
+            className={`ml-2 p-3 rounded-full ${
+              isTyping ? "bg-gray-500" : "bg-indigo-600"
+            }`}
           >
-            <Ionicons name="send" size={22} color="white" />
+            {isTyping ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Ionicons name="send" size={22} color="white" />
+            )}
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
