@@ -162,6 +162,7 @@ const ChatDashboard: React.FC = () => {
         {/* Messages */}
         <FlatList
           ref={flatListRef}
+          showsVerticalScrollIndicator={false}
           data={
             isTyping
               ? [
