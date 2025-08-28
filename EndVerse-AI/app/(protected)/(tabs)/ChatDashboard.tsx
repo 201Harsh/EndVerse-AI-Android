@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 import Header from "@/app/Components/Header";
+import AxiosInstance from "@/app/Config/Axios";
 
 type Message = {
   id: string;
@@ -40,40 +41,60 @@ const ChatDashboard = () => {
     getuserName();
   }, []);
 
-  const handleSend = () => {
-    if (inputMessage.trim()) {
-      const newMessage: Message = {
+  const handleSend = async () => {
+  const token = await AsyncStorage.getItem("token");
+  if (inputMessage.trim()) {
+    const newMessage: Message = {
+      id: Date.now().toString(),
+      text: inputMessage,
+      sender: "user",
+      timestamp: getTimestamp(),
+    };
+
+    setMessages((prev) => [...prev, newMessage]);
+    setInputMessage("");
+
+    try {
+      const res = await AxiosInstance.post(
+        "/ai/chat",
+        { prompt: inputMessage },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("AI Response:", res.data.answer);
+
+      const botMessage: Message = {
         id: Date.now().toString(),
-        text: inputMessage,
-        sender: "user",
+        text: res.data?.answer || "Something went wrong 🤖",
+        sender: "bot",
         timestamp: getTimestamp(),
       };
 
-      setMessages((prev) => [...prev, newMessage]);
-      setInputMessage("");
+      setMessages((prev) => [...prev, botMessage]);
 
-      // Auto bot reply after short delay
-      setTimeout(() => {
-        const botMessage: Message = {
-          id: Date.now().toString(),
-          text: "Hello! I'm EndVerse AI 🤖",
-          sender: "bot",
-          timestamp: getTimestamp(),
-        };
-        setMessages((prev) => [...prev, botMessage]);
-
-        // Scroll after bot reply
-        setTimeout(() => {
-          flatListRef.current?.scrollToEnd({ animated: true });
-        }, 100);
-      }, 800);
-
-      // Scroll after sending
+      // Scroll to bottom
       setTimeout(() => {
         flatListRef.current?.scrollToEnd({ animated: true });
       }, 100);
+    } catch (error) {
+      console.error("Error fetching AI reply:", error);
+
+      const errorMessage: Message = {
+        id: Date.now().toString(),
+        text: "⚠️ Sorry, I couldn’t connect to the AI.",
+        sender: "bot",
+        timestamp: getTimestamp(),
+      };
+
+      setMessages((prev) => [...prev, errorMessage]);
     }
-  };
+  }
+};
+
 
   const renderMessage = ({ item }: { item: Message }) => {
     const isUser = item.sender === "user";
