@@ -3,7 +3,7 @@
 
 ![EndVerse Banner](https://img.shields.io/badge/EndVerse_AI-Advanced_Multimodal_Platform-blue?style=for-the-badge&logo=android&logoColor=white&color=6E48AA&labelColor=000000)
 
-The most advanced AI platform combining conversational intelligence, creative generation, and development capabilities in one unified **React Native Android application**.
+A powerful AI platform that brings together conversational intelligence, creative generation, and development tools in one unified mobile app for **Android and iOS**.
 
 [![React Native](https://img.shields.io/badge/React%20Native-0.74-blue)](https://reactnative.dev/)
 [![Node Version](https://img.shields.io/badge/Node-18.16.0-green)](https://nodejs.org/)
