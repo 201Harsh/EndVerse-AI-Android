@@ -56,7 +56,7 @@ const ImageDashboard = () => {
           </Text>
 
           <Text className="text-xl text-gray-500 mb-8 text-center">
-            Our image dashboard is under construction. We're working hard to
+            Sorry! Our image dashboard is under construction. We're working hard to
             bring you an amazing experience!
           </Text>
 
@@ -66,7 +66,7 @@ const ImageDashboard = () => {
 
           <View className="mt-8">
             <Text className="text-gray-400 text-sm">
-              In the meantime, enjoy our other features!
+              In the meantime, enjoy our other features! Like chat, code, and video.
             </Text>
           </View>
         </View>
