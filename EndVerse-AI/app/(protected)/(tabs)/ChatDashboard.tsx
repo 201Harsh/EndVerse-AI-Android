@@ -102,7 +102,7 @@ const ChatDashboard: React.FC = () => {
 
         const errorMessage: Message = {
           id: Date.now().toString(),
-          text: "⚠️ Sorry, I couldn’t connect to the AI.",
+          text: "⚠️ Sorry, I couldnt connect to the EndVerse AI.",
           sender: "bot",
           timestamp: getTimestamp(),
         };
